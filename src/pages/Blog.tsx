@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import Navbar from '@/components/layout/Navbar';
@@ -124,7 +125,7 @@ const Blog = () => {
                     onChange={(e) => setSearchQuery(e.target.value)}
                   />
                 </div>
-                <CTAButton className="ml-2" onClick={() => handleSearch}>
+                <CTAButton type="submit" className="ml-2">
                   Search
                 </CTAButton>
               </form>
