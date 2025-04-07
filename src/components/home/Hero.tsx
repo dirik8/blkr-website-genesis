@@ -25,10 +25,10 @@ const Hero = () => {
             Unlock the Secrets to Financial Freedom
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <CTAButton size="lg" withArrow>
+            <CTAButton size="lg" withArrow href="/contact">
               Apply for Membership
             </CTAButton>
-            <CTAButton variant="secondary" size="lg">
+            <CTAButton variant="secondary" size="lg" href="/programs">
               Explore Programs
             </CTAButton>
           </div>

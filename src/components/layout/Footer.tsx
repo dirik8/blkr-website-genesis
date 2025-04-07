@@ -1,11 +1,13 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import CTAButton from '../shared/CTAButton';
 import { Facebook, Instagram, Twitter, Linkedin, ArrowRight } from 'lucide-react';
 import { Input } from '../ui/input';
+import { toast } from '@/hooks/use-toast';
 
 const Footer = () => {
+  const [footerEmail, setFooterEmail] = useState('');
   const currentYear = new Date().getFullYear();
   
   const footerLinks = [
@@ -32,11 +34,29 @@ const Footer = () => {
   ];
 
   const socialLinks = [
-    { icon: Facebook, href: "#" },
-    { icon: Instagram, href: "#" },
-    { icon: Twitter, href: "#" },
-    { icon: Linkedin, href: "#" },
+    { icon: Facebook, href: "https://facebook.com" },
+    { icon: Instagram, href: "https://instagram.com" },
+    { icon: Twitter, href: "https://twitter.com" },
+    { icon: Linkedin, href: "https://linkedin.com" },
   ];
+  
+  const handleFooterSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (footerEmail) {
+      console.log("Newsletter subscription:", footerEmail);
+      toast({
+        title: "Subscription successful!",
+        description: "You've been added to our newsletter.",
+      });
+      setFooterEmail('');
+    } else {
+      toast({
+        title: "Email required",
+        description: "Please enter your email address.",
+        variant: "destructive",
+      });
+    }
+  };
 
   return (
     <footer className="bg-black border-t border-blkr-gold/20 pt-16 pb-8">
@@ -50,16 +70,18 @@ const Footer = () => {
             <p className="text-gray-400 mb-6">
               Stay updated with the latest trading strategies, market insights, and exclusive offers.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4">
+            <form onSubmit={handleFooterSubscribe} className="flex flex-col sm:flex-row gap-4">
               <Input
                 type="email"
                 placeholder="Enter your email"
                 className="bg-gray-900 border-gray-700 text-white"
+                value={footerEmail}
+                onChange={(e) => setFooterEmail(e.target.value)}
               />
-              <CTAButton className="whitespace-nowrap flex-shrink-0">
+              <CTAButton className="whitespace-nowrap flex-shrink-0" type="submit">
                 Subscribe <ArrowRight className="ml-1 w-4 h-4" />
               </CTAButton>
-            </div>
+            </form>
           </div>
           <div>
             <div className="flex flex-col items-start md:items-end">
@@ -75,6 +97,8 @@ const Footer = () => {
                     key={index} 
                     href={social.href} 
                     className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-900 text-blkr-gold hover:bg-blkr-gold hover:text-black transition-colors"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     aria-label={`Social media link ${index + 1}`}
                   >
                     <social.icon size={18} />
@@ -117,7 +141,7 @@ const Footer = () => {
           <div>
             <h4 className="text-lg font-medium text-blkr-white mb-4">Join BBC</h4>
             <p className="text-gray-400 mb-5">Ready to take your trading to the next level? Join our exclusive community today.</p>
-            <CTAButton variant="secondary" withArrow>Apply Now</CTAButton>
+            <CTAButton variant="secondary" withArrow href="/contact">Apply Now</CTAButton>
           </div>
         </div>
         

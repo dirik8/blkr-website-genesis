@@ -3,6 +3,7 @@ import React from 'react';
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface CTAButtonProps {
   children: React.ReactNode;
@@ -12,6 +13,8 @@ interface CTAButtonProps {
   onClick?: () => void;
   withArrow?: boolean;
   type?: 'button' | 'submit' | 'reset';
+  href?: string;
+  externalLink?: boolean;
 }
 
 const CTAButton = ({
@@ -22,6 +25,8 @@ const CTAButton = ({
   onClick,
   withArrow = false,
   type = 'button',
+  href,
+  externalLink = false,
 }: CTAButtonProps) => {
   
   const getButtonStyle = () => {
@@ -46,19 +51,56 @@ const CTAButton = ({
     }
   };
 
+  const buttonContent = (
+    <>
+      {children}
+      {withArrow && <ArrowRight className="w-4 h-4" />}
+    </>
+  );
+  
+  const buttonClasses = cn(
+    "font-medium rounded-md transition-all duration-300 flex items-center gap-2",
+    getButtonStyle(),
+    getSizeStyle(),
+    className
+  );
+  
+  // If it's an external link
+  if (href && externalLink) {
+    return (
+      <a 
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={buttonClasses}
+        onClick={onClick}
+      >
+        {buttonContent}
+      </a>
+    );
+  }
+  
+  // If it's an internal link
+  if (href && !externalLink) {
+    return (
+      <Link 
+        to={href}
+        className={buttonClasses}
+        onClick={onClick}
+      >
+        {buttonContent}
+      </Link>
+    );
+  }
+  
+  // If it's a regular button
   return (
     <Button 
       onClick={onClick}
-      className={cn(
-        "font-medium rounded-md transition-all duration-300 flex items-center gap-2",
-        getButtonStyle(),
-        getSizeStyle(),
-        className
-      )}
+      className={buttonClasses}
       type={type}
     >
-      {children}
-      {withArrow && <ArrowRight className="w-4 h-4" />}
+      {buttonContent}
     </Button>
   );
 };

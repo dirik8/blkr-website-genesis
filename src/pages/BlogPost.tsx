@@ -107,14 +107,12 @@ const BlogPost = () => {
                 <p className="mb-6">
                   This article is sourced from an external RSS feed. To read the full article, please visit:
                 </p>
-                <a
+                <CTAButton
                   href={post.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-block bg-blkr-gold hover:bg-blkr-gold/90 text-black font-medium px-6 py-3 rounded-md transition-colors"
+                  externalLink={true}
                 >
                   Read Full Article
-                </a>
+                </CTAButton>
               </div>
               
               <div className="mt-12 pt-8 border-t border-gray-800">
@@ -133,7 +131,7 @@ const BlogPost = () => {
                 <p className="text-gray-300 mb-6">
                   Join the BLKR Trading Community for exclusive content, personalized guidance, and access to our premium trading strategies.
                 </p>
-                <CTAButton withArrow>
+                <CTAButton withArrow href="/contact">
                   Apply for Membership
                 </CTAButton>
               </div>

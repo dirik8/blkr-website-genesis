@@ -21,6 +21,7 @@ import {
 const Blog = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
+  const [email, setEmail] = useState('');
   const postsPerPage = 4;
   
   // CryptoSlate RSS feed URL
@@ -92,6 +93,17 @@ const Blog = () => {
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+  
+  const handleSubscribe = () => {
+    if (email) {
+      // In a real application, you would send this to your backend
+      console.log("Subscribing email:", email);
+      alert(`Thank you for subscribing with ${email}!`);
+      setEmail('');
+    } else {
+      alert("Please enter your email address");
+    }
   };
 
   return (
@@ -299,8 +311,10 @@ const Blog = () => {
                       type="email" 
                       placeholder="Your email address"
                       className="bg-gray-800/50 border-gray-700 text-white"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                     />
-                    <CTAButton className="w-full justify-center">
+                    <CTAButton className="w-full justify-center" onClick={handleSubscribe}>
                       Subscribe
                     </CTAButton>
                   </div>
@@ -311,7 +325,7 @@ const Blog = () => {
                   <p className="text-gray-300 text-sm mb-4">
                     Join BLKR Trading Community for exclusive content and personalized trading guidance.
                   </p>
-                  <CTAButton variant="secondary" withArrow className="w-full justify-center">
+                  <CTAButton variant="secondary" withArrow className="w-full justify-center" href="/contact">
                     Apply Now
                   </CTAButton>
                 </div>
