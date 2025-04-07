@@ -11,6 +11,7 @@ import Programs from "./pages/Programs";
 import Education from "./pages/Education";
 import Coaching from "./pages/Coaching";
 import Blog from "./pages/Blog";
+import BlogPost from "./pages/BlogPost";
 import Team from "./pages/Team";
 import FAQ from "./pages/FAQ";
 import Contact from "./pages/Contact";
@@ -32,6 +33,7 @@ const App = () => (
             <Route path="/education" element={<Education />} />
             <Route path="/coaching" element={<Coaching />} />
             <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:id" element={<BlogPost />} />
             <Route path="/team" element={<Team />} />
             <Route path="/faq" element={<FAQ />} />
             <Route path="/contact" element={<Contact />} />
