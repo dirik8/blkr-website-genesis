@@ -11,6 +11,7 @@ interface CTAButtonProps {
   size?: 'default' | 'lg';
   onClick?: () => void;
   withArrow?: boolean;
+  type?: 'button' | 'submit' | 'reset';
 }
 
 const CTAButton = ({
@@ -20,6 +21,7 @@ const CTAButton = ({
   size = 'default',
   onClick,
   withArrow = false,
+  type = 'button',
 }: CTAButtonProps) => {
   
   const getButtonStyle = () => {
@@ -53,6 +55,7 @@ const CTAButton = ({
         getSizeStyle(),
         className
       )}
+      type={type}
     >
       {children}
       {withArrow && <ArrowRight className="w-4 h-4" />}
