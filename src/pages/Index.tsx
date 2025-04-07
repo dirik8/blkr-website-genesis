@@ -1,13 +1,35 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import React from 'react';
+import Navbar from '@/components/layout/Navbar';
+import Footer from '@/components/layout/Footer';
+import Hero from '@/components/home/Hero';
+import Benefits from '@/components/home/Benefits';
+import Services from '@/components/home/Services';
+import ExpertBio from '@/components/home/ExpertBio';
+import Testimonials from '@/components/home/Testimonials';
+import Metrics from '@/components/home/Metrics';
+import { Helmet } from 'react-helmet';
 
 const Index = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
-      </div>
-    </div>
+    <>
+      <Helmet>
+        <title>BLKR Trading Community | Elite Strategies. Exclusive Access.</title>
+        <meta name="description" content="Join the inner circle of elite traders at BLKR Trading Community. Unlock premium trading strategies, expert mentorship, and exclusive market insights." />
+        <meta name="keywords" content="elite trading community, high-ticket crypto coaching, trading mentorship, day trading strategies, crypto portfolio guide" />
+      </Helmet>
+      
+      <main className="min-h-screen bg-black text-white">
+        <Navbar />
+        <Hero />
+        <Benefits />
+        <Services />
+        <ExpertBio />
+        <Testimonials />
+        <Metrics />
+        <Footer />
+      </main>
+    </>
   );
 };
 
