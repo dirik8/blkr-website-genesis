@@ -8,7 +8,7 @@ import Services from '@/components/home/Services';
 import ExpertBio from '@/components/home/ExpertBio';
 import Testimonials from '@/components/home/Testimonials';
 import Metrics from '@/components/home/Metrics';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 const Index = () => {
   return (
