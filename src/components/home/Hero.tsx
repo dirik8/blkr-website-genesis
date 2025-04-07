@@ -1,7 +1,7 @@
 
 import React from 'react';
 import CTAButton from '../shared/CTAButton';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, BookOpen } from 'lucide-react';
 
 const Hero = () => {
   return (
@@ -30,6 +30,15 @@ const Hero = () => {
             </CTAButton>
             <CTAButton variant="secondary" size="lg" href="/programs">
               Explore Programs
+            </CTAButton>
+          </div>
+
+          {/* Blog button */}
+          <div className="mt-6">
+            <CTAButton variant="outline" href="/blog" className="inline-flex items-center">
+              <BookOpen className="w-4 h-4 mr-2" />
+              Read Our Latest Market Insights
+              <ArrowRight className="w-4 h-4 ml-2" />
             </CTAButton>
           </div>
           

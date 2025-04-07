@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import CTAButton from '@/components/shared/CTAButton';
-import { Search, Calendar, User, Tag, ArrowRight, ExternalLink } from 'lucide-react';
+import { Search, Calendar, User, Tag, ArrowRight, ExternalLink, BookOpen } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
@@ -17,6 +17,7 @@ import {
   PaginationNext,
   PaginationPrevious
 } from '@/components/ui/pagination';
+import BlogArticleCard from '@/components/blog/BlogArticleCard';
 
 const Blog = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -76,7 +77,8 @@ const Blog = () => {
   const filteredPosts = blogPosts.filter(post => 
     post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
     post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    post.category.toLowerCase().includes(searchQuery.toLowerCase())
+    post.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    post.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
   );
   
   // Pagination
@@ -95,7 +97,8 @@ const Blog = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
   
-  const handleSubscribe = () => {
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
     if (email) {
       // In a real application, you would send this to your backend
       console.log("Subscribing email:", email);
@@ -105,6 +108,9 @@ const Blog = () => {
       alert("Please enter your email address");
     }
   };
+
+  // Featured post (first post)
+  const featuredPost = blogPosts[0];
 
   return (
     <>
@@ -142,10 +148,56 @@ const Blog = () => {
                 </CTAButton>
               </form>
             </div>
+
+            {featuredPost && !searchQuery && currentPage === 1 && (
+              <div className="mb-16 bg-gray-900 rounded-lg overflow-hidden border border-gray-800">
+                <div className="grid grid-cols-1 lg:grid-cols-2">
+                  <div className="aspect-video lg:aspect-auto lg:h-full bg-gray-800">
+                    <img 
+                      src={featuredPost.image} 
+                      alt={featuredPost.title} 
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = '/placeholder.svg';
+                      }}
+                    />
+                  </div>
+                  <div className="p-8 flex flex-col justify-center">
+                    <div className="inline-block mb-3 bg-blkr-gold/20 px-3 py-1 rounded text-sm">
+                      <span className="text-blkr-gold font-medium">{featuredPost.category}</span>
+                    </div>
+                    <h2 className="text-3xl font-bold mb-4 hover:text-blkr-gold transition-colors">
+                      <Link to={`/blog/${featuredPost.id}`}>{featuredPost.title}</Link>
+                    </h2>
+                    <p className="text-gray-300 mb-6">{featuredPost.excerpt}</p>
+                    <div className="flex items-center text-sm text-gray-400 mb-6">
+                      <div className="flex items-center mr-4">
+                        <User className="h-4 w-4 mr-1" />
+                        {featuredPost.author}
+                      </div>
+                      <div className="flex items-center">
+                        <Calendar className="h-4 w-4 mr-1" />
+                        {featuredPost.date}
+                      </div>
+                    </div>
+                    <CTAButton 
+                      variant="secondary" 
+                      href={`/blog/${featuredPost.id}`} 
+                      withArrow
+                    >
+                      <BookOpen className="h-4 w-4 mr-1" />
+                      Read Featured Article
+                    </CTAButton>
+                  </div>
+                </div>
+              </div>
+            )}
             
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 mb-16">
               <div className="lg:col-span-2">
-                <h2 className="text-3xl font-playfair font-bold mb-8">Latest Articles</h2>
+                <h2 className="text-3xl font-playfair font-bold mb-8">
+                  {searchQuery ? `Search Results for "${searchQuery}"` : "Latest Articles"}
+                </h2>
                 
                 {isLoading ? (
                   <div className="flex justify-center items-center py-20">
@@ -164,41 +216,7 @@ const Blog = () => {
                 ) : (
                   <div className="grid grid-cols-1 gap-10">
                     {currentPosts.map((post) => (
-                      <div key={post.id} className="bg-gray-900 rounded-lg overflow-hidden border border-gray-800">
-                        <div className="grid grid-cols-1 md:grid-cols-3">
-                          <div className="aspect-video md:aspect-square bg-gray-800 md:h-full">
-                            <img src={post.image} alt={post.title} className="w-full h-full object-cover" />
-                          </div>
-                          <div className="p-6 md:col-span-2">
-                            <div className="flex items-center mb-3">
-                              <span className="text-xs font-medium bg-blkr-gold/20 text-blkr-gold px-2 py-1 rounded">
-                                {post.category}
-                              </span>
-                            </div>
-                            <h3 className="text-xl font-bold mb-3 hover:text-blkr-gold transition-colors">
-                              <Link to={`/blog/${post.id}`}>{post.title}</Link>
-                            </h3>
-                            <p className="text-gray-400 mb-4">{post.excerpt}</p>
-                            <div className="flex flex-wrap gap-2 mb-4">
-                              {post.tags.map((tag, index) => (
-                                <span key={index} className="text-xs bg-gray-800 text-gray-300 px-2 py-1 rounded">
-                                  {tag}
-                                </span>
-                              ))}
-                            </div>
-                            <div className="flex items-center text-sm text-gray-400">
-                              <div className="flex items-center mr-4">
-                                <User className="h-4 w-4 mr-1" />
-                                {post.author}
-                              </div>
-                              <div className="flex items-center">
-                                <Calendar className="h-4 w-4 mr-1" />
-                                {post.date}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                      <BlogArticleCard key={post.id} post={post} />
                     ))}
                   </div>
                 )}
@@ -306,7 +324,7 @@ const Blog = () => {
                   <p className="text-gray-300 text-sm mb-4">
                     Get weekly trading insights and market analysis directly to your inbox.
                   </p>
-                  <div className="space-y-3">
+                  <form onSubmit={handleSubscribe} className="space-y-3">
                     <Input 
                       type="email" 
                       placeholder="Your email address"
@@ -314,10 +332,10 @@ const Blog = () => {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                     />
-                    <CTAButton className="w-full justify-center" onClick={handleSubscribe}>
+                    <CTAButton type="submit" className="w-full justify-center">
                       Subscribe
                     </CTAButton>
-                  </div>
+                  </form>
                 </div>
                 
                 <div className="bg-gray-900 p-6 rounded-lg border border-gray-800 text-center">

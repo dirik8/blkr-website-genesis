@@ -1,17 +1,19 @@
 
 import React, { useEffect, useState } from 'react';
-import { useParams, Navigate } from 'react-router-dom';
+import { useParams, Navigate, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import CTAButton from '@/components/shared/CTAButton';
-import { Calendar, User, Tag, ArrowLeft } from 'lucide-react';
+import { Calendar, User, Tag, ArrowLeft, BookOpen, ExternalLink } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { fetchRssFeed, RssFeedItem } from '@/utils/rssFeed';
+import { Card, CardContent } from '@/components/ui/card';
 
 const BlogPost = () => {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const [post, setPost] = useState<RssFeedItem | null>(null);
   const rssUrl = 'https://cryptoslate.com/feed/';
 
@@ -28,6 +30,14 @@ const BlogPost = () => {
       }
     }
   }, [posts, id]);
+
+  // Get related posts (same category or tags)
+  const relatedPosts = posts?.filter(p => 
+    p.id !== id && (
+      p.category === post?.category || 
+      p.tags.some(tag => post?.tags.includes(tag))
+    )
+  ).slice(0, 3) || [];
 
   if (isLoading) {
     return (
@@ -98,21 +108,34 @@ const BlogPost = () => {
                 </div>
               </div>
               
-              <div className="aspect-video bg-gray-800 rounded-lg overflow-hidden mb-8">
-                <img src={post.image} alt={post.title} className="w-full h-full object-cover" />
+              <div className="aspect-video bg-gray-800 rounded-lg overflow-hidden mb-8 border border-gray-800">
+                <img 
+                  src={post.image} 
+                  alt={post.title} 
+                  className="w-full h-full object-cover" 
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = '/placeholder.svg';
+                  }}
+                />
               </div>
               
               <div className="prose prose-invert max-w-none">
                 <p className="text-lg text-gray-300 mb-6">{post.excerpt}</p>
-                <p className="mb-6">
-                  This article is sourced from an external RSS feed. To read the full article, please visit:
-                </p>
-                <CTAButton
-                  href={post.link}
-                  externalLink={true}
-                >
-                  Read Full Article
-                </CTAButton>
+                
+                <div className="my-8 p-6 bg-gray-900 rounded-lg border border-gray-800">
+                  <p className="font-medium mb-4">
+                    This article is sourced from an external RSS feed. To read the full article:
+                  </p>
+                  <CTAButton
+                    href={post.link}
+                    externalLink={true}
+                    className="inline-flex"
+                  >
+                    <BookOpen className="mr-2" />
+                    Read Full Article
+                    <ExternalLink className="ml-2 h-4 w-4" />
+                  </CTAButton>
+                </div>
               </div>
               
               <div className="mt-12 pt-8 border-t border-gray-800">
@@ -126,14 +149,51 @@ const BlogPost = () => {
                 </div>
               </div>
               
+              {relatedPosts.length > 0 && (
+                <div className="mt-12">
+                  <h3 className="text-2xl font-bold mb-6">Related Articles</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {relatedPosts.map((relatedPost) => (
+                      <Card key={relatedPost.id} className="bg-gray-900 border border-gray-800">
+                        <div className="aspect-video">
+                          <img 
+                            src={relatedPost.image} 
+                            alt={relatedPost.title} 
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).src = '/placeholder.svg';
+                            }} 
+                          />
+                        </div>
+                        <CardContent className="p-4">
+                          <div className="text-xs text-blkr-gold mb-2">{relatedPost.category}</div>
+                          <h4 className="font-bold mb-2 hover:text-blkr-gold transition-colors">
+                            <Link to={`/blog/${relatedPost.id}`}>{relatedPost.title}</Link>
+                          </h4>
+                          <div className="flex items-center text-xs text-gray-400">
+                            <Calendar className="h-3 w-3 mr-1" />
+                            {relatedPost.date}
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                </div>
+              )}
+              
               <div className="bg-gray-900 p-8 rounded-lg border border-gray-800 mt-12">
                 <h3 className="text-xl font-bold mb-4">Want More Trading Insights?</h3>
                 <p className="text-gray-300 mb-6">
                   Join the BLKR Trading Community for exclusive content, personalized guidance, and access to our premium trading strategies.
                 </p>
-                <CTAButton withArrow href="/contact">
-                  Apply for Membership
-                </CTAButton>
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <CTAButton withArrow href="/contact">
+                    Apply for Membership
+                  </CTAButton>
+                  <CTAButton variant="secondary" href="/blog">
+                    Explore More Articles
+                  </CTAButton>
+                </div>
               </div>
             </article>
           </div>

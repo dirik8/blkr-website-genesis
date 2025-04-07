@@ -15,6 +15,7 @@ interface CTAButtonProps {
   type?: 'button' | 'submit' | 'reset';
   href?: string;
   externalLink?: boolean;
+  disabled?: boolean;
 }
 
 const CTAButton = ({
@@ -27,6 +28,7 @@ const CTAButton = ({
   type = 'button',
   href,
   externalLink = false,
+  disabled = false,
 }: CTAButtonProps) => {
   
   const getButtonStyle = () => {
@@ -54,7 +56,7 @@ const CTAButton = ({
   const buttonContent = (
     <>
       {children}
-      {withArrow && <ArrowRight className="w-4 h-4" />}
+      {withArrow && <ArrowRight className="w-4 h-4 ml-1" />}
     </>
   );
   
@@ -62,8 +64,15 @@ const CTAButton = ({
     "font-medium rounded-md transition-all duration-300 flex items-center gap-2",
     getButtonStyle(),
     getSizeStyle(),
+    disabled && "opacity-60 cursor-not-allowed pointer-events-none",
     className
   );
+  
+  // Handle click with optional href navigation
+  const handleClick = (e: React.MouseEvent) => {
+    if (disabled) return;
+    if (onClick) onClick();
+  };
   
   // If it's an external link
   if (href && externalLink) {
@@ -73,7 +82,8 @@ const CTAButton = ({
         target="_blank"
         rel="noopener noreferrer"
         className={buttonClasses}
-        onClick={onClick}
+        onClick={handleClick}
+        aria-disabled={disabled}
       >
         {buttonContent}
       </a>
@@ -86,7 +96,8 @@ const CTAButton = ({
       <Link 
         to={href}
         className={buttonClasses}
-        onClick={onClick}
+        onClick={handleClick}
+        aria-disabled={disabled}
       >
         {buttonContent}
       </Link>
@@ -96,9 +107,10 @@ const CTAButton = ({
   // If it's a regular button
   return (
     <Button 
-      onClick={onClick}
+      onClick={handleClick}
       className={buttonClasses}
       type={type}
+      disabled={disabled}
     >
       {buttonContent}
     </Button>
