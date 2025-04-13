@@ -63,7 +63,7 @@ const Hero = () => {
             <CTAButton variant="secondary" size="lg" href="/programs" className="text-lg py-6 px-10">
               Explore Programs
             </CTAButton>
-          </div>
+          </motion.div>
 
           {/* Blog button */}
           <motion.div 
