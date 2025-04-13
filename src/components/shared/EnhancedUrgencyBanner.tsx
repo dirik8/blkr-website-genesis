@@ -1,5 +1,6 @@
+
 import React, { useState, useEffect } from 'react';
-import { AlertCircle, Clock, Sparkles, TrendingUp, Zap } from 'lucide-react';
+import { AlertCircle, Clock, Zap } from 'lucide-react';
 import CTAButton from './CTAButton';
 import { useApplicationForm } from '@/contexts/ApplicationFormContext';
 import { motion } from 'framer-motion';
@@ -38,21 +39,8 @@ const EnhancedUrgencyBanner: React.FC<EnhancedUrgencyBannerProps> = ({ slotsLeft
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
-      whileInView={{
-        scale: [1, 1.02, 1],
-        boxShadow: [
-          "0 0 0 0 rgba(239, 68, 68, 0.2)",
-          "0 0 0 10px rgba(239, 68, 68, 0.2)",
-          "0 0 0 0 rgba(239, 68, 68, 0.2)"
-        ],
-        transition: {
-          duration: 2,
-          repeat: Infinity,
-          repeatType: "loop" as "loop" | "mirror" | "reverse"
-        }
-      }}
     >
-      <div className="absolute inset-0 bg-gradient-to-r from-red-900/20 via-yellow-900/20 to-red-900/20 animate-gradient-x z-0"></div>
+      <div className="absolute inset-0 bg-gradient-to-r from-red-900/20 via-red-800/20 to-red-900/20 z-0"></div>
       
       <div className="relative z-10">
         <div className="flex flex-col items-center text-center">
@@ -69,7 +57,7 @@ const EnhancedUrgencyBanner: React.FC<EnhancedUrgencyBannerProps> = ({ slotsLeft
             <AlertCircle className="h-5 w-5 text-red-500" />
           </motion.div>
           
-          <p className="text-white text-sm mb-3 max-w-md">
+          <p className="text-white text-sm mb-3">
             Don't miss your opportunity to join our elite trading community.
           </p>
           
@@ -88,16 +76,12 @@ const EnhancedUrgencyBanner: React.FC<EnhancedUrgencyBannerProps> = ({ slotsLeft
             </div>
           </div>
           
-          <div className="flex flex-col sm:flex-row items-center gap-2 mb-3 text-xs">
-            <div className="flex items-center text-yellow-400">
-              <TrendingUp className="w-3 h-3 mr-1" />
-              <span>98% success rate for early members</span>
-            </div>
-            
-            <div className="flex items-center text-yellow-400">
-              <Clock className="w-3 h-3 mr-1" />
-              <span>Applications closing soon</span>
-            </div>
+          <div className="flex items-center gap-2 mb-3 text-xs">
+            <span className="text-yellow-400">✓ 98% success rate for early members</span>
+            <span className="text-yellow-400">
+              <Clock className="w-3 h-3 inline mr-1" />
+              Applications closing soon
+            </span>
           </div>
           
           <motion.div
@@ -107,9 +91,9 @@ const EnhancedUrgencyBanner: React.FC<EnhancedUrgencyBannerProps> = ({ slotsLeft
             <CTAButton 
               onClick={openForm} 
               size="default" 
-              className="font-bold group relative overflow-hidden"
+              className="font-bold group bg-blkr-gold text-black px-6 py-3"
             >
-              <Zap className="mr-2 h-4 w-4 group-hover:animate-ping" />
+              <Zap className="mr-2 h-4 w-4" />
               Secure Your Spot Now
             </CTAButton>
           </motion.div>
