@@ -10,24 +10,24 @@ const Hero = () => {
   const { openForm } = useApplicationForm();
   
   return (
-    <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
+    <section className="relative min-h-screen flex items-center pt-16 overflow-hidden">
       {/* Background with hero image and gradient overlay */}
       <div className="absolute inset-0 z-0">
         {/* Hero background image - using a dark trading/finance themed image */}
         <img 
-          src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=2070&auto=format&fit=crop" 
+          src="https://images.unsplash.com/photo-1639322537288-639122f8ec16?q=80&w=2070&auto=format&fit=crop" 
           alt="Trading background" 
-          className="absolute inset-0 w-full h-full object-cover opacity-40"
+          className="absolute inset-0 w-full h-full object-cover brightness-50"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-black/95 to-black"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/90 via-black/80 to-black"></div>
         {/* Grid pattern overlay */}
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMzMzMiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTM2IDM0aDR2MWgtNHYtMXptMC0yaDF2NGgtMXYtNHptMi0yaDF2MWgtMXYtMXptLTIgMmgxdjFoLTF2LTF6bS0yLTJoMXYxaC0xdi0xem0yLTJoMXYxaC0xVjI4em0tMiAyaDF2MWgtMXYtMXptLTItMmgxdjFoLTF2LTF6TTM0IDI4aDR2MWgtNHYtMXptMCAwaDR2NGgtNHYtNHptMiAyaC0ydjJoMnYtMnoiLz48L2c+PC9nPjwvc3ZnPg==')]"></div>
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMzMzMiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTM2IDM0aDR2MWgtNHYtMXptMC0yaDF2NGgtMXYtNHptMi0yaDF2MWgtMXYtMXptLTIgMmgxdjFoLTF2LTF6bS0yLTJoMXYxaC0xdi0xem0yLTJoMXYxaC0xVjI4em0tMiAyaDF2MWgtMXYtMXptLTItMmgxdjFoLTF2LTF6TTM0IDI4aDR2MWgtNHYtMXptMCAwaDR2NGgtNHYtNHptMiAyaC0ydjJoMnYtMnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-10"></div>
       </div>
       
       <div className="container-custom relative z-10">
         <div className="max-w-4xl mx-auto text-center">
           {/* Community tag - styled like in the example */}
-          <div className="inline-block mb-3 px-6 py-2 rounded-full border border-blkr-gold/30 bg-black/70 backdrop-blur-sm">
+          <div className="inline-block mb-5 px-6 py-2 rounded-full border border-blkr-gold/30 bg-black/70 backdrop-blur-sm">
             <span className="text-blkr-gold font-medium">BLKR Trading Community</span>
           </div>
           
@@ -42,7 +42,7 @@ const Hero = () => {
           </motion.h1>
           
           <motion.p 
-            className="text-xl md:text-2xl text-gray-300 mb-10"
+            className="text-xl md:text-2xl text-gray-300 mb-12"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
@@ -52,15 +52,15 @@ const Hero = () => {
           
           {/* CTA buttons - larger and more spaced as per design */}
           <motion.div 
-            className="flex flex-col sm:flex-row gap-6 justify-center mb-10"
+            className="flex flex-col sm:flex-row gap-6 justify-center mb-16"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.6 }}
           >
-            <CTAButton size="lg" withArrow onClick={openForm} className="text-lg py-6 px-10">
+            <CTAButton size="lg" withArrow onClick={openForm} className="text-lg py-6 px-12 w-full sm:w-auto">
               Apply for Membership
             </CTAButton>
-            <CTAButton variant="secondary" size="lg" href="/programs" className="text-lg py-6 px-10">
+            <CTAButton variant="secondary" size="lg" href="/programs" className="text-lg py-6 px-12 w-full sm:w-auto">
               Explore Programs
             </CTAButton>
           </motion.div>
@@ -80,7 +80,7 @@ const Hero = () => {
           </motion.div>
           
           {/* Add urgency banner - aligned with the design */}
-          <div className="mb-16">
+          <div className="mb-16 max-w-2xl mx-auto">
             <EnhancedUrgencyBanner slotsLeft={2} />
           </div>
           

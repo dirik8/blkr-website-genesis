@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import Navbar from '@/components/layout/Navbar';
@@ -25,7 +24,6 @@ const Blog = () => {
   const [email, setEmail] = useState('');
   const postsPerPage = 4;
   
-  // CryptoSlate RSS feed URL
   const rssUrl = 'https://cryptoslate.com/feed/';
   
   const { data: blogPosts = [], isLoading, isError } = useQuery({
@@ -38,29 +36,28 @@ const Blog = () => {
       title: "Bitcoin Surpasses Previous All-Time High Amid Institutional Buying",
       source: "CoinTelegraph",
       time: "2 hours ago",
-      url: "https://cointelegraph.com"
+      url: "https://cointelegraph.com/news/bitcoin-price-ath-institutional-buyers"
     },
     {
       title: "SEC Approves New Crypto ETF Applications from Major Asset Managers",
       source: "CoinTelegraph",
       time: "4 hours ago",
-      url: "https://cointelegraph.com"
+      url: "https://cointelegraph.com/news/sec-approves-etf-applications"
     },
     {
       title: "DeFi Protocol Launches Cross-Chain Bridge with Enhanced Security Features",
       source: "CoinTelegraph",
       time: "6 hours ago",
-      url: "https://cointelegraph.com"
+      url: "https://cointelegraph.com/news/defi-cross-chain-bridge-security"
     },
     {
       title: "Central Bank Digital Currencies: Country X Announces Pilot Program",
       source: "CoinTelegraph",
       time: "12 hours ago",
-      url: "https://cointelegraph.com"
+      url: "https://cointelegraph.com/news/cbdc-pilot-program-launch"
     }
   ];
   
-  // Extract unique categories from blog posts
   const categoriesMap = blogPosts.reduce((acc: {[key: string]: number}, post) => {
     if (post.category) {
       acc[post.category] = (acc[post.category] || 0) + 1;
@@ -73,7 +70,6 @@ const Blog = () => {
     count: categoriesMap[name]
   }));
   
-  // Filter posts by search query
   const filteredPosts = blogPosts.filter(post => 
     post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
     post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -81,7 +77,6 @@ const Blog = () => {
     post.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()))
   );
   
-  // Pagination
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
   const currentPosts = filteredPosts.slice(indexOfFirstPost, indexOfLastPost);
@@ -89,7 +84,7 @@ const Blog = () => {
   
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    setCurrentPage(1); // Reset to first page on search
+    setCurrentPage(1);
   };
   
   const handlePageChange = (page: number) => {
@@ -100,7 +95,6 @@ const Blog = () => {
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
     if (email) {
-      // In a real application, you would send this to your backend
       console.log("Subscribing email:", email);
       alert(`Thank you for subscribing with ${email}!`);
       setEmail('');
@@ -109,7 +103,6 @@ const Blog = () => {
     }
   };
 
-  // Featured post (first post)
   const featuredPost = blogPosts[0];
 
   return (

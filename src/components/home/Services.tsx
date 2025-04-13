@@ -8,7 +8,8 @@ import {
   ShieldCheck, 
   BookOpen, 
   Calendar, 
-  ArrowRight 
+  ArrowRight,
+  Briefcase
 } from 'lucide-react';
 
 const Services = () => {
@@ -43,6 +44,12 @@ const Services = () => {
       icon: Calendar,
       variant: "primary"
     },
+    {
+      title: "Investment Consultation",
+      description: "Strategic investment guidance from experienced traders to help you make informed market decisions.",
+      icon: Briefcase,
+      variant: "secondary"
+    }
   ];
 
   const renderIcon = (Icon: any, variant: string) => (
