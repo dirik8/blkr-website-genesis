@@ -3,6 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Calendar, User } from 'lucide-react';
 import { RssFeedItem } from '@/utils/rssFeed';
+import { Button } from '@/components/ui/button';
 
 interface BlogArticleCardProps {
   post: RssFeedItem;
@@ -40,15 +41,20 @@ const BlogArticleCard = ({ post }: BlogArticleCardProps) => {
               </span>
             ))}
           </div>
-          <div className="flex items-center text-sm text-gray-400">
-            <div className="flex items-center mr-4">
-              <User className="h-4 w-4 mr-1" />
-              {post.author}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center text-sm text-gray-400">
+              <div className="flex items-center mr-4">
+                <User className="h-4 w-4 mr-1" />
+                {post.author}
+              </div>
+              <div className="flex items-center">
+                <Calendar className="h-4 w-4 mr-1" />
+                {post.date}
+              </div>
             </div>
-            <div className="flex items-center">
-              <Calendar className="h-4 w-4 mr-1" />
-              {post.date}
-            </div>
+            <Button asChild variant="ghost" className="text-blkr-gold hover:text-blkr-gold/80 hover:bg-blkr-gold/10">
+              <Link to={`/blog/${post.id}`}>Read More</Link>
+            </Button>
           </div>
         </div>
       </div>

@@ -1,14 +1,83 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import CTAButton from '@/components/shared/CTAButton';
+import UrgencyBanner from '@/components/shared/UrgencyBanner';
 import { Mail, MessageSquare, Phone, Send } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { useToast } from '@/hooks/use-toast';
+import { ContactFormData, sendContactFormData } from '@/utils/emailSender';
 
 const Contact = () => {
+  const { toast } = useToast();
+  const [formData, setFormData] = useState<ContactFormData>({
+    name: '',
+    email: '',
+    phone: '',
+    subject: '',
+    message: ''
+  });
+  const [adminEmail, setAdminEmail] = useState('admin@blkrtrading.com');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [privacyChecked, setPrivacyChecked] = useState(false);
+  
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { id, value } = e.target;
+    setFormData(prev => ({ ...prev, [id]: value }));
+  };
+  
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!privacyChecked) {
+      toast({
+        title: "Privacy Policy",
+        description: "Please agree to the privacy policy to continue.",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    setIsSubmitting(true);
+    
+    try {
+      const success = await sendContactFormData(formData, adminEmail);
+      
+      if (success) {
+        toast({
+          title: "Message Sent",
+          description: "Your message has been successfully sent. We'll get back to you soon.",
+        });
+        
+        // Reset form
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          subject: '',
+          message: ''
+        });
+        setPrivacyChecked(false);
+      } else {
+        toast({
+          title: "Error",
+          description: "Failed to send your message. Please try again later.",
+          variant: "destructive"
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "An unexpected error occurred. Please try again later.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <>
       <Helmet>
@@ -22,7 +91,7 @@ const Contact = () => {
         
         <section className="pt-32 pb-16">
           <div className="container-custom">
-            <div className="max-w-4xl mx-auto text-center mb-16">
+            <div className="max-w-4xl mx-auto text-center mb-10">
               <h1 className="text-5xl md:text-6xl font-playfair font-bold mb-6">
                 Contact <span className="text-blkr-gold">Us</span>
               </h1>
@@ -32,10 +101,16 @@ const Contact = () => {
               </p>
             </div>
             
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-20">
+            <UrgencyBanner 
+              slotsLeft={2} 
+              href="#contact-form" 
+              className="max-w-4xl mx-auto mb-16" 
+            />
+            
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-20" id="contact-form">
               <div>
                 <h2 className="text-3xl font-playfair font-bold mb-8">Get In Touch</h2>
-                <form className="space-y-6">
+                <form className="space-y-6" onSubmit={handleSubmit}>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <label htmlFor="name" className="block text-sm font-medium mb-2">Full Name</label>
@@ -44,6 +119,9 @@ const Contact = () => {
                         id="name" 
                         className="bg-gray-900 border border-gray-700 text-white"
                         placeholder="John Doe"
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        required
                       />
                     </div>
                     <div>
@@ -53,6 +131,9 @@ const Contact = () => {
                         id="email" 
                         className="bg-gray-900 border border-gray-700 text-white"
                         placeholder="john@example.com"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        required
                       />
                     </div>
                   </div>
@@ -64,6 +145,8 @@ const Contact = () => {
                       id="phone" 
                       className="bg-gray-900 border border-gray-700 text-white"
                       placeholder="+1 (555) 123-4567"
+                      value={formData.phone}
+                      onChange={handleInputChange}
                     />
                   </div>
                   
@@ -74,6 +157,9 @@ const Contact = () => {
                       id="subject" 
                       className="bg-gray-900 border border-gray-700 text-white"
                       placeholder="Membership Inquiry"
+                      value={formData.subject}
+                      onChange={handleInputChange}
+                      required
                     />
                   </div>
                   
@@ -84,6 +170,21 @@ const Contact = () => {
                       rows={6}
                       className="bg-gray-900 border border-gray-700 text-white"
                       placeholder="Your message here..."
+                      value={formData.message}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
+                  
+                  <div>
+                    <label htmlFor="adminEmail" className="block text-sm font-medium mb-2">Admin Email (Where to send form submissions)</label>
+                    <Input 
+                      type="email" 
+                      id="adminEmail" 
+                      className="bg-gray-900 border border-gray-700 text-white"
+                      placeholder="admin@example.com"
+                      value={adminEmail}
+                      onChange={(e) => setAdminEmail(e.target.value)}
                     />
                   </div>
                   
@@ -92,14 +193,16 @@ const Contact = () => {
                       id="privacy" 
                       type="checkbox" 
                       className="h-4 w-4 bg-gray-900 border-gray-700 rounded text-blkr-gold focus:ring-blkr-gold"
+                      checked={privacyChecked}
+                      onChange={(e) => setPrivacyChecked(e.target.checked)}
                     />
                     <label htmlFor="privacy" className="ml-2 block text-sm text-gray-300">
                       I agree to the privacy policy and terms of service
                     </label>
                   </div>
                   
-                  <CTAButton className="w-full justify-center">
-                    <Send className="mr-2 h-4 w-4" /> Send Message
+                  <CTAButton type="submit" className="w-full justify-center" disabled={isSubmitting}>
+                    <Send className="mr-2 h-4 w-4" /> {isSubmitting ? 'Sending...' : 'Send Message'}
                   </CTAButton>
                 </form>
               </div>
@@ -154,7 +257,7 @@ const Contact = () => {
                   <p className="text-gray-300 mb-6">
                     Before reaching out, you might find answers to common questions on our FAQ page.
                   </p>
-                  <CTAButton variant="secondary" className="w-full justify-center">
+                  <CTAButton variant="secondary" className="w-full justify-center" href="/faq">
                     View FAQ Page
                   </CTAButton>
                 </div>
@@ -165,7 +268,7 @@ const Contact = () => {
               <h2 className="text-3xl font-playfair font-bold mb-10 text-center">Visit Our Social Channels</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
                 <a 
-                  href="#" 
+                  href="https://twitter.com/BLKRTrading" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="bg-gray-900 p-6 rounded-lg border border-gray-800 text-center hover:border-blkr-gold transition-colors"
@@ -178,7 +281,7 @@ const Contact = () => {
                 </a>
                 
                 <a 
-                  href="#" 
+                  href="https://linkedin.com/company/blkr-trading" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="bg-gray-900 p-6 rounded-lg border border-gray-800 text-center hover:border-blkr-gold transition-colors"
@@ -191,7 +294,7 @@ const Contact = () => {
                 </a>
                 
                 <a 
-                  href="#" 
+                  href="https://instagram.com/blkrtrading" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="bg-gray-900 p-6 rounded-lg border border-gray-800 text-center hover:border-blkr-gold transition-colors"
@@ -204,7 +307,7 @@ const Contact = () => {
                 </a>
                 
                 <a 
-                  href="#" 
+                  href="https://youtube.com/c/BLKRTrading" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="bg-gray-900 p-6 rounded-lg border border-gray-800 text-center hover:border-blkr-gold transition-colors"
@@ -219,11 +322,11 @@ const Contact = () => {
             </div>
             
             <div className="bg-blkr-gold/10 rounded-lg p-10 border border-blkr-gold/20 text-center max-w-4xl mx-auto">
-              <h2 className="text-3xl font-playfair font-bold mb-6">Ready to Join BBC?</h2>
+              <h2 className="text-3xl font-playfair font-bold mb-6">Ready to Join BLKR?</h2>
               <p className="text-lg mb-8 text-gray-300">
                 Apply for membership to gain access to our exclusive trading community and resources.
               </p>
-              <CTAButton withArrow>Apply for Membership</CTAButton>
+              <CTAButton href="/contact#contact-form" withArrow>Apply for Membership</CTAButton>
             </div>
           </div>
         </section>
