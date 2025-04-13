@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { AlertCircle, Clock, Sparkles, TrendingUp, Zap } from 'lucide-react';
 import CTAButton from './CTAButton';
@@ -16,7 +15,6 @@ const EnhancedUrgencyBanner: React.FC<EnhancedUrgencyBannerProps> = ({ slotsLeft
   const [timerMinutes, setTimerMinutes] = useState(59);
   const [timerSeconds, setTimerSeconds] = useState(59);
   
-  // Countdown timer effect
   useEffect(() => {
     const timerInterval = setInterval(() => {
       if (timerSeconds > 0) {
@@ -54,10 +52,8 @@ const EnhancedUrgencyBanner: React.FC<EnhancedUrgencyBannerProps> = ({ slotsLeft
         }
       }}
     >
-      {/* Animated background gradient */}
       <div className="absolute inset-0 bg-gradient-to-r from-red-900/20 via-yellow-900/20 to-red-900/20 animate-gradient-x z-0"></div>
       
-      {/* Content */}
       <div className="relative z-10">
         <div className="flex flex-col items-center text-center">
           <motion.div 
@@ -77,7 +73,6 @@ const EnhancedUrgencyBanner: React.FC<EnhancedUrgencyBannerProps> = ({ slotsLeft
             Don't miss your opportunity to join our elite trading community.
           </p>
           
-          {/* Timer */}
           <div className="grid grid-cols-3 gap-3 mb-4 w-full max-w-xs">
             <div className="bg-gray-800/80 p-2 rounded-lg border border-gray-700 text-center">
               <div className="text-xl font-bold text-white">{timerHours.toString().padStart(2, '0')}</div>
@@ -111,7 +106,7 @@ const EnhancedUrgencyBanner: React.FC<EnhancedUrgencyBannerProps> = ({ slotsLeft
           >
             <CTAButton 
               onClick={openForm} 
-              size="sm" 
+              size="default" 
               className="font-bold group relative overflow-hidden"
             >
               <Zap className="mr-2 h-4 w-4 group-hover:animate-ping" />
