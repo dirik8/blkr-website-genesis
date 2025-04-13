@@ -9,15 +9,30 @@ export interface ContactFormData {
 
 export const sendContactFormData = async (formData: ContactFormData, adminEmail: string): Promise<boolean> => {
   try {
-    // In a real application, this would send the data to a backend service
-    // For now, we'll simulate a successful submission
-    console.log(`Form data would be sent to admin email: ${adminEmail}`);
-    console.log('Form data:', formData);
+    // Log detailed information about the submission
+    console.log(`📧 Form data would be sent to admin email: ${adminEmail}`);
+    console.log('📝 Form data details:', formData);
     
-    // Simulate an API call with a delay
+    // Show the formatted message as it would appear in an email
+    const formattedMessage = `
+===== New Message From ${formData.name} =====
+Sender: ${formData.name} <${formData.email}>
+Phone: ${formData.phone || 'Not provided'}
+Subject: ${formData.subject}
+
+Message:
+${formData.message}
+===================================
+    `;
+    
+    console.log('📄 Formatted message for email:');
+    console.log(formattedMessage);
+    
+    // In a real application, this would send data to a backend service that handles emails
+    // For now, we'll simulate a successful submission with a delay
     await new Promise(resolve => setTimeout(resolve, 1000));
     
-    // Here you would normally send an actual API request to your backend
+    // Here's where you would normally send an actual API request to your backend
     // const response = await fetch('/api/contact', {
     //   method: 'POST',
     //   headers: { 'Content-Type': 'application/json' },
@@ -27,7 +42,7 @@ export const sendContactFormData = async (formData: ContactFormData, adminEmail:
     
     return true;
   } catch (error) {
-    console.error('Error sending contact form data:', error);
+    console.error('❌ Error sending contact form data:', error);
     return false;
   }
 };

@@ -16,8 +16,36 @@ import Team from "./pages/Team";
 import FAQ from "./pages/FAQ";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
+import { ApplicationFormProvider } from "./contexts/ApplicationFormContext";
+import ApplicationForm from "./components/forms/ApplicationForm";
+import { useApplicationForm } from "./contexts/ApplicationFormContext";
 
 const queryClient = new QueryClient();
+
+// Wrapper component to handle the application form modal
+const AppWithApplicationForm = () => {
+  const { isFormOpen, closeForm } = useApplicationForm();
+  
+  return (
+    <>
+      <ApplicationForm open={isFormOpen} onOpenChange={closeForm} />
+      <Routes>
+        <Route path="/" element={<Index />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/programs" element={<Programs />} />
+        <Route path="/education" element={<Education />} />
+        <Route path="/coaching" element={<Coaching />} />
+        <Route path="/blog" element={<Blog />} />
+        <Route path="/blog/:id" element={<BlogPost />} />
+        <Route path="/team" element={<Team />} />
+        <Route path="/faq" element={<FAQ />} />
+        <Route path="/contact" element={<Contact />} />
+        {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </>
+  );
+};
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -26,20 +54,9 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/programs" element={<Programs />} />
-            <Route path="/education" element={<Education />} />
-            <Route path="/coaching" element={<Coaching />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/blog/:id" element={<BlogPost />} />
-            <Route path="/team" element={<Team />} />
-            <Route path="/faq" element={<FAQ />} />
-            <Route path="/contact" element={<Contact />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+          <ApplicationFormProvider>
+            <AppWithApplicationForm />
+          </ApplicationFormProvider>
         </BrowserRouter>
       </TooltipProvider>
     </HelmetProvider>

@@ -1,6 +1,5 @@
 
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { Calendar, User } from 'lucide-react';
 import { RssFeedItem } from '@/utils/rssFeed';
 import { Button } from '@/components/ui/button';
@@ -31,7 +30,7 @@ const BlogArticleCard = ({ post }: BlogArticleCardProps) => {
             </span>
           </div>
           <h3 className="text-xl font-bold mb-3 hover:text-blkr-gold transition-colors">
-            <Link to={`/blog/${post.id}`}>{post.title}</Link>
+            <a href={post.link} target="_blank" rel="noopener noreferrer">{post.title}</a>
           </h3>
           <p className="text-gray-400 mb-4 line-clamp-3">{post.excerpt}</p>
           <div className="flex flex-wrap gap-2 mb-4">
@@ -52,8 +51,12 @@ const BlogArticleCard = ({ post }: BlogArticleCardProps) => {
                 {post.date}
               </div>
             </div>
-            <Button asChild variant="ghost" className="text-blkr-gold hover:text-blkr-gold/80 hover:bg-blkr-gold/10">
-              <Link to={`/blog/${post.id}`}>Read More</Link>
+            <Button 
+              variant="ghost" 
+              className="text-blkr-gold hover:text-blkr-gold/80 hover:bg-blkr-gold/10"
+              onClick={() => window.open(post.link, '_blank', 'noopener,noreferrer')}
+            >
+              Read More
             </Button>
           </div>
         </div>

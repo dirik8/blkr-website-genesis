@@ -2,8 +2,12 @@
 import React from 'react';
 import CTAButton from '../shared/CTAButton';
 import { ArrowRight, BookOpen } from 'lucide-react';
+import EnhancedUrgencyBanner from '../shared/EnhancedUrgencyBanner';
+import { useApplicationForm } from '@/contexts/ApplicationFormContext';
 
 const Hero = () => {
+  const { openForm } = useApplicationForm();
+  
   return (
     <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
       {/* Background with gradient overlay */}
@@ -25,7 +29,7 @@ const Hero = () => {
             Unlock the Secrets to Financial Freedom
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <CTAButton size="lg" withArrow href="/contact#contact-form">
+            <CTAButton size="lg" withArrow onClick={openForm}>
               Apply for Membership
             </CTAButton>
             <CTAButton variant="secondary" size="lg" href="/programs">
@@ -42,8 +46,13 @@ const Hero = () => {
             </CTAButton>
           </div>
           
+          {/* Add urgency banner */}
+          <div className="mt-16 mb-8">
+            <EnhancedUrgencyBanner slotsLeft={2} />
+          </div>
+          
           {/* Floating stats */}
-          <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+          <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
             {[
               { value: "1,000+", label: "Community Members" },
               { value: "$100M+", label: "Profits Generated" },

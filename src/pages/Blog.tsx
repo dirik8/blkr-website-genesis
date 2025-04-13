@@ -167,7 +167,7 @@ const Blog = () => {
                       <span className="text-blkr-gold font-medium">{featuredPost.category}</span>
                     </div>
                     <h2 className="text-3xl font-bold mb-4 hover:text-blkr-gold transition-colors">
-                      <Link to={`/blog/${featuredPost.id}`}>{featuredPost.title}</Link>
+                      <a href={featuredPost.link} target="_blank" rel="noopener noreferrer">{featuredPost.title}</a>
                     </h2>
                     <p className="text-gray-300 mb-6">{featuredPost.excerpt}</p>
                     <div className="flex items-center text-sm text-gray-400 mb-6">
@@ -182,7 +182,8 @@ const Blog = () => {
                     </div>
                     <CTAButton 
                       variant="secondary" 
-                      href={`/blog/${featuredPost.id}`} 
+                      href={featuredPost.link}
+                      externalLink={true}
                       withArrow
                     >
                       <BookOpen className="h-4 w-4 mr-1" />

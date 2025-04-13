@@ -1,17 +1,20 @@
+
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import CTAButton from '@/components/shared/CTAButton';
-import UrgencyBanner from '@/components/shared/UrgencyBanner';
+import EnhancedUrgencyBanner from '@/components/shared/EnhancedUrgencyBanner';
 import { Mail, MessageSquare, Phone, Send } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { ContactFormData, sendContactFormData } from '@/utils/emailSender';
+import { useApplicationForm } from '@/contexts/ApplicationFormContext';
 
 const Contact = () => {
   const { toast } = useToast();
+  const { openForm } = useApplicationForm();
   const [formData, setFormData] = useState<ContactFormData>({
     name: '',
     email: '',
@@ -101,9 +104,8 @@ const Contact = () => {
               </p>
             </div>
             
-            <UrgencyBanner 
+            <EnhancedUrgencyBanner 
               slotsLeft={2} 
-              href="#contact-form" 
               className="max-w-4xl mx-auto mb-16" 
             />
             
@@ -326,7 +328,7 @@ const Contact = () => {
               <p className="text-lg mb-8 text-gray-300">
                 Apply for membership to gain access to our exclusive trading community and resources.
               </p>
-              <CTAButton href="/contact#contact-form" withArrow>Apply for Membership</CTAButton>
+              <CTAButton onClick={openForm} withArrow>Apply for Membership</CTAButton>
             </div>
           </div>
         </section>

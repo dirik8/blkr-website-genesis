@@ -4,10 +4,12 @@ import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import CTAButton from '../shared/CTAButton';
 import { Menu, X } from 'lucide-react';
+import { useApplicationForm } from '@/contexts/ApplicationFormContext';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { openForm } = useApplicationForm();
 
   const menuItems = [
     { name: 'Home', path: '/' },
@@ -63,7 +65,7 @@ const Navbar = () => {
               </li>
             ))}
           </ul>
-          <CTAButton variant="primary">Apply for Membership</CTAButton>
+          <CTAButton variant="primary" onClick={openForm}>Apply for Membership</CTAButton>
         </div>
 
         {/* Mobile Menu Toggle */}
@@ -99,7 +101,14 @@ const Navbar = () => {
               ))}
             </ul>
             <div className="mt-6">
-              <CTAButton variant="primary" className="w-full justify-center">
+              <CTAButton 
+                variant="primary" 
+                className="w-full justify-center"
+                onClick={() => {
+                  openForm();
+                  setMobileMenuOpen(false);
+                }}
+              >
                 Apply for Membership
               </CTAButton>
             </div>
