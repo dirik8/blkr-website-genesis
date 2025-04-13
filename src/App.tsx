@@ -15,6 +15,7 @@ import BlogPost from "./pages/BlogPost";
 import Team from "./pages/Team";
 import FAQ from "./pages/FAQ";
 import Contact from "./pages/Contact";
+import Testimonials from "./pages/Testimonials";
 import NotFound from "./pages/NotFound";
 import { ApplicationFormProvider } from "./contexts/ApplicationFormContext";
 import ApplicationForm from "./components/forms/ApplicationForm";
@@ -35,6 +36,7 @@ const AppWithApplicationForm = () => {
         <Route path="/programs" element={<Programs />} />
         <Route path="/education" element={<Education />} />
         <Route path="/coaching" element={<Coaching />} />
+        <Route path="/testimonials" element={<Testimonials />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/blog/:id" element={<BlogPost />} />
         <Route path="/team" element={<Team />} />

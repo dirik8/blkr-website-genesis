@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
@@ -17,6 +16,7 @@ const Navbar = () => {
     { name: 'Programs', path: '/programs' },
     { name: 'Education', path: '/education' },
     { name: 'Coaching', path: '/coaching' },
+    { name: 'Testimonials', path: '/testimonials' },
     { name: 'Blog', path: '/blog' },
     { name: 'Contact', path: '/contact' },
   ];
@@ -44,14 +44,12 @@ const Navbar = () => {
       )}
     >
       <div className="container-custom flex items-center justify-between">
-        {/* Logo */}
         <Link to="/" className="flex items-center">
           <span className="text-2xl font-playfair font-bold text-blkr-white">
             <span className="text-blkr-gold">BLKR</span> Trading
           </span>
         </Link>
 
-        {/* Desktop Menu */}
         <div className="hidden lg:flex items-center gap-8">
           <ul className="flex gap-8">
             {menuItems.map((item) => (
@@ -68,7 +66,6 @@ const Navbar = () => {
           <CTAButton variant="primary" onClick={openForm}>Apply for Membership</CTAButton>
         </div>
 
-        {/* Mobile Menu Toggle */}
         <div className="lg:hidden">
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -83,7 +80,6 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Menu */}
       {mobileMenuOpen && (
         <div className="lg:hidden bg-black/95 backdrop-blur-sm absolute top-full left-0 w-full">
           <div className="container-custom py-4">
