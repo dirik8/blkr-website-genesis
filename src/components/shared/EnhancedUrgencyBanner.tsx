@@ -34,7 +34,7 @@ const EnhancedUrgencyBanner: React.FC<EnhancedUrgencyBannerProps> = ({ slotsLeft
     return () => clearInterval(timerInterval);
   }, [timerHours, timerMinutes, timerSeconds]);
 
-  // Pulse effect variants
+  // Pulse effect variants - fixed to use proper type for repeatType
   const pulseVariants = {
     pulse: {
       scale: [1, 1.05, 1],
@@ -46,7 +46,7 @@ const EnhancedUrgencyBanner: React.FC<EnhancedUrgencyBannerProps> = ({ slotsLeft
       transition: {
         duration: 2,
         repeat: Infinity,
-        repeatType: "loop"
+        repeatType: "loop" as const // Type assertion to fix the error
       }
     }
   };
@@ -58,7 +58,7 @@ const EnhancedUrgencyBanner: React.FC<EnhancedUrgencyBannerProps> = ({ slotsLeft
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
       variants={pulseVariants}
-      animate="pulse"
+      whileInView="pulse" // Changed animate to whileInView to avoid duplicate attribute
     >
       {/* Animated background gradient */}
       <div className="absolute inset-0 bg-gradient-to-r from-red-900/20 via-yellow-900/20 to-red-900/20 animate-gradient-x z-0"></div>
