@@ -15,7 +15,7 @@ const Hero = () => {
       <div className="absolute inset-0 z-0">
         {/* Hero background image */}
         <img 
-          src="public/lovable-uploads/9f99e2a9-3ad8-4a40-a628-112a47ba97f0.png" 
+          src="https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80" 
           alt="Trading background" 
           className="absolute inset-0 w-full h-full object-cover object-center"
         />
@@ -68,7 +68,7 @@ const Hero = () => {
               variant="secondary" 
               size="lg" 
               href="/programs" 
-              className="text-lg py-6 px-12 flex-1 w-full"
+              className="text-lg py-6 px-12 flex-1 w-full bg-gray-800 hover:bg-gray-700"
             >
               Explore Programs
             </CTAButton>

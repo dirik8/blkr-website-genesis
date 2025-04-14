@@ -9,6 +9,11 @@ interface BlogArticleCardProps {
 }
 
 const BlogArticleCard = ({ post }: BlogArticleCardProps) => {
+  const handleReadMore = (e: React.MouseEvent) => {
+    e.preventDefault();
+    window.open(post.link, '_blank', 'noopener,noreferrer');
+  };
+
   return (
     <div className="bg-gray-900 rounded-lg overflow-hidden border border-gray-800 hover:border-blkr-gold/30 transition-all">
       <div className="grid grid-cols-1 md:grid-cols-3">
@@ -30,7 +35,9 @@ const BlogArticleCard = ({ post }: BlogArticleCardProps) => {
             </span>
           </div>
           <h3 className="text-xl font-bold mb-3 hover:text-blkr-gold transition-colors">
-            <a href={post.link} target="_blank" rel="noopener noreferrer">{post.title}</a>
+            <a href={post.link} target="_blank" rel="noopener noreferrer">
+              {post.title}
+            </a>
           </h3>
           <p className="text-gray-400 mb-4 line-clamp-3">{post.excerpt}</p>
           <div className="flex flex-wrap gap-2 mb-4">
@@ -54,7 +61,7 @@ const BlogArticleCard = ({ post }: BlogArticleCardProps) => {
             <Button 
               variant="ghost" 
               className="text-blkr-gold hover:text-blkr-gold/80 hover:bg-blkr-gold/10"
-              onClick={() => window.open(post.link, '_blank', 'noopener,noreferrer')}
+              onClick={handleReadMore}
             >
               Read More
             </Button>

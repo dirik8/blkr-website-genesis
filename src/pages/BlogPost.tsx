@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { useParams, Navigate, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
@@ -31,13 +30,18 @@ const BlogPost = () => {
     }
   }, [posts, id]);
 
-  // Get related posts (same category or tags)
   const relatedPosts = posts?.filter(p => 
     p.id !== id && (
       p.category === post?.category || 
       p.tags.some(tag => post?.tags.includes(tag))
     )
   ).slice(0, 3) || [];
+
+  const handleReadFullArticle = () => {
+    if (post && post.link) {
+      window.open(post.link, '_blank', 'noopener,noreferrer');
+    }
+  };
 
   if (isLoading) {
     return (
@@ -130,6 +134,7 @@ const BlogPost = () => {
                     href={post.link}
                     externalLink={true}
                     className="inline-flex"
+                    onClick={handleReadFullArticle}
                   >
                     <BookOpen className="mr-2" />
                     Read Full Article
